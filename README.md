@@ -54,10 +54,10 @@ client-contact-api/
 ## 📸 Screenshots
 
 ### 🖥️ Client Manager Webpage
-![Client Manager Webpage](screenshot/ClientContactmanger_webpage_shot.png)
+![Client Manager Webpage](https://github.com/codexrahulKIIT/client-contact-flask-mongo-api/blob/bd808323d6a2d4cca67a6d3c4dd6b97b9fbf8372/screenshot/ClientContactmanger%20webpage%20shot.png?raw=true)
 
 ### 📬 Postman Request Example
-![Postman Request](screenshot/Postman_req.png)
+![Postman Request](https://github.com/codexrahulKIIT/client-contact-flask-mongo-api/blob/bd808323d6a2d4cca67a6d3c4dd6b97b9fbf8372/screenshot/Postman%20%20req.png?raw=true)
 
 ---
 
