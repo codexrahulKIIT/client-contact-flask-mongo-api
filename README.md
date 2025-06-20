@@ -152,20 +152,7 @@ It includes a simple UI to add, update, and delete clients.
 
 ---
 
-## ☁️ Deployment (Optional but Recommended)
-
-You can deploy this app on AWS EC2 (Free Tier) or any other cloud platform.
-
-### Steps:
-
-1. Launch an EC2 instance (Ubuntu)
-2. SSH into the instance
-3. Install Python, pip, and MongoDB
-4. Clone your GitHub repo
-5. Set up your virtual environment and install dependencies
-6. Run using `flask run` or `gunicorn`
-7. Use **Nginx + Gunicorn** for production setup
-
+## ☁️ working on deployment on AWS EC2
 ---
 
 ## ✍️ Author
@@ -175,6 +162,3 @@ GitHub: [@codexrahulKIIT](https://github.com/codexrahulKIIT)
 
 ---
 
-## 🙌 Acknowledgments
-
-This project was built as part of an API development assignment and serves as a hands-on project for understanding full-stack development with Flask and MongoDB.
