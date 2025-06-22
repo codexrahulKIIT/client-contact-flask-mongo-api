@@ -157,6 +157,14 @@ It includes a simple UI to add, update, and delete clients.
 
 ## ✍️ Author
 
+## ✅ Test Coverage
+
+- Achieved 100% test coverage using `pytest` and `coverage.py`.
+- All CRUD routes tested thoroughly with valid and invalid scenarios.
+- Integration and API tests verified using `mongomock` and `requests`.
+
+![Coverage Report](screenshots/coverage.png)
+
 **Rahul Kumar**  
 GitHub: [@codexrahulKIIT](https://github.com/codexrahulKIIT)
 
