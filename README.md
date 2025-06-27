@@ -154,6 +154,45 @@ It includes a simple UI to add, update, and delete clients.
 
 ## ☁️ working on deployment on AWS EC2
 ---
+---
+
+## ✅ Keploy API Test Reports
+
+The following screenshots show that Keploy successfully captured and passed all API test cases via the GitHub Actions CI/CD pipeline and Keploy Cloud.
+
+### 📸 Keploy API Test Dashboard
+
+![Keploy API Test Dashboard](https://github.com/codexrahulKIIT/client-contact-flask-mongo-api/blob/fd283495f85d9e344e0c73b05f0ec6b5ddb078af/screenshot/Keploy%20Api%20test%20Dashboard.png?raw=true)
+
+---
+
+### 📋 Captured Test Suites
+
+![Test Suites](https://github.com/codexrahulKIIT/client-contact-flask-mongo-api/blob/fd283495f85d9e344e0c73b05f0ec6b5ddb078af/screenshot/test%20suits.png?raw=true)
+
+---
+
+## 🔁 CI/CD Integration with GitHub Actions
+
+This project uses a GitHub Actions workflow to automatically:
+
+- 🐍 Set up Python & MongoDB
+- 🔁 Install dependencies
+- ⚙️ Run Keploy API test suite with cloud upload
+- ✅ Ensure all test cases pass during every push/pull to `main`
+
+👉 **CI/CD Workflow Execution Link**:  
+[View GitHub Actions Runs](https://github.com/codexrahulKIIT/client-contact-flask-mongo-api/actions)
+
+---
+
+### 📝 Summary
+
+- API Test Cases captured & passed with Keploy ✅  
+- CI/CD tested & validated on GitHub Actions ✅  
+- Dashboard visible on Keploy Cloud ✅  
+- Images added for visual proof ✅  
+
 
 ## ✍️ Author
 
