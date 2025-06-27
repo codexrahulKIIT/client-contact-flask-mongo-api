@@ -2,11 +2,9 @@ name: Keploy API Testing CI/CD
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   keploy-test:
@@ -29,7 +27,6 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          # IMPORTANT: Change this to your actual Python version (e.g., '3.8', '3.10', '3.11', '3.12')
           python-version: '3.9'
 
       - name: Install application dependencies
@@ -48,13 +45,9 @@ jobs:
           sudo mount -t debugfs nodev /sys/kernel/debug || true
           sudo mount -t tracefs nodev /sys/kernel/tracing || true
 
-      # === CRITICAL FIXES APPLIED IN THIS STEP ===
-      - name: Run Keploy Test Suite
+      - name: Run Keploy Test Suite with API Key and App Info
         run: |
-          # 🚨 FIX 1: Use GitHub Secrets syntax for the API key (DO NOT hardcode)
           export KEPLOY_API_KEY=${{ secrets.KEPLOY_API_KEY }}
-          # 🚨 FIX 2: Use 'keploy test -c' command, which works with this Keploy version
-          # It automatically starts your Flask app and finds tests in .keploy directory
           sudo -E keploy test -c "python app.py" --delay 15 --cloud --language python
         env:
-          FLASK_APP: app.py # Keep this, though Keploy's -c flag should handle app startup
+          FLASK_APP: app.py
