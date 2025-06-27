@@ -1,0 +1,76 @@
+name: Keploy API Testing CI/CD
+
+# This workflow will run on push to main branch and on pull requests to main.
+on:
+  push:
+    branches:
+      - main # Adjust this if your main branch is named differently (e.g., master)
+  pull_request:
+    branches:
+      - main # Adjust this if your main branch is named differently
+
+jobs:
+  # Define a job named 'keploy-test'
+  keploy-test:
+    # The job will run on a fresh Ubuntu environment
+    runs-on: ubuntu-latest
+
+    # Services define additional containers that run alongside your job,
+    # accessible via their hostname. Here, we're running MongoDB.
+    services:
+      mongodb:
+        image: mongo:latest # Use the latest MongoDB image
+        ports:
+          - "27017:27017" # Map port 27017 from the container to the host (accessible as localhost:27017)
+        options: >-
+          --health-cmd "mongosh --eval 'db.runCommand(\"ping\").ok'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      # Step 1: Checkout your repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9' # IMPORTANT: Use the Python version your app uses (e.g., '3.8', '3.10', '3.11', '3.12')
+
+      # Step 3: Install your Flask application's dependencies
+      # Note: If your app requires MongoDB to be running *before* Keploy test-suite runs,
+      # ensure this step installs dependencies like pymongo.
+      - name: Install application dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install Flask pymongo Flask-Cors flasgger # Install all required Python packages
+
+      # Step 4: Install Keploy CLI
+      # The curl command is typically used on Linux, which is what ubuntu-latest is.
+      - name: Install Keploy CLI
+        run: |
+          curl --silent -O -L https://keploy.io/install.sh && sudo bash install.sh
+
+      # Step 5: Prepare eBPF hooks for Keploy
+      # Keploy uses eBPF for traffic capture, which requires specific kernel mounts.
+      - name: Prepare eBPF Hooks
+        run: |
+          sudo mkdir -p /sys/kernel/debug
+          sudo mkdir -p /sys/kernel/tracing
+          sudo mount -t debugfs nodev /sys/kernel/debug || true
+          sudo mount -t tracefs nodev /sys/kernel/tracing || true
+
+      # Step 6: Run Keploy API Test Suite
+      # This command runs tests against a *pre-running* application at the specified --base-path.
+      # It uses the KEPLOY_API_KEY from GitHub Secrets to upload results to Keploy Cloud.
+      - name: Run Keploy Test Suite
+        run: |
+          export KEPLOY_API_KEY=${{ secrets.KEPLOY_API_KEY }}
+          sudo -E keploy test-suite --app=a271740b-cc4c-4568-a3ab-ca274c9c9608 --base-path https://e914-47-31-113-124.ngrok-free.app/clients --cloud
+        env:
+          # FLASK_APP is less directly relevant for `keploy test-suite` when using --base-path
+          # as `test-suite` expects the app to be running externally.
+          # However, it's kept here in case the Python environment needs it for other reasons.
+          FLASK_APP: app.py
