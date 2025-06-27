@@ -2,40 +2,52 @@ name: Keploy API Testing CI/CD
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   keploy-test:
     runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - "27017:27017"
+        options: >-
+          --health-cmd "mongosh --eval 'db.runCommand(\"ping\").ok'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
 
-    - name: Install dependencies
-      run: |
-        python -m venv venv
-        source venv/bin/activate
-        pip install -r requirements.txt
+      - name: Install application dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install Flask pymongo Flask-Cors flasgger
 
-    - name: Download Keploy CLI
-      run: |
-        curl -sSfL https://get.keploy.io | sh
-        sudo mv keploy /usr/local/bin/
-        keploy version
+      - name: Install Keploy CLI
+        run: |
+          curl --silent -O -L https://keploy.io/install.sh && sudo bash install.sh
 
-    - name: Run API server in background
-      run: |
-        source venv/bin/activate
-        nohup python app.py > server.log 2>&1 &
-        sleep 5
+      - name: Prepare eBPF Hooks
+        run: |
+          sudo mkdir -p /sys/kernel/debug
+          sudo mkdir -p /sys/kernel/tracing
+          sudo mount -t debugfs nodev /sys/kernel/debug || true
+          sudo mount -t tracefs nodev /sys/kernel/tracing || true
 
-    - name: Run Keploy Test
-      run: |
-        keploy test --path keploy/test-set-2
+      - name: Run Keploy Test Suite with API Key and App Info
+        run: |
+          export KEPLOY_API_KEY=${{ secrets.KEPLOY_API_KEY }}
+          sudo -E keploy test -c "python app.py" --delay 15 --cloud --language python
+        env:
+          FLASK_APP: app.py
