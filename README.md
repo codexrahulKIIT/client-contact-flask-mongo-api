@@ -1,8 +1,8 @@
 # 🗂️ Client Contact Management API (Flask + MongoDB)
 
-This project is a simple and customizable REST API built using **Flask** and **MongoDB** that lets you manage client contacts. You can perform all the basic CRUD operations (Create, Read, Update, Delete), and there's also a basic web interface to interact with the backend.
+This project is a custom RESTful API built with **Flask** and **MongoDB** that allows you to manage client contacts through full CRUD operations (Create, Read, Update, Delete). A simple **web-based frontend** is included to interact with the backend API.
 
-Perfect if you're learning API development, backend integration, or working on a full-stack project using Python and JavaScript!
+It’s perfect for learning API development, database integration, and full-stack project structure using Python and JavaScript.
 
 ![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
 ![MongoDB](https://img.shields.io/badge/database-MongoDB-green)
@@ -13,7 +13,7 @@ Perfect if you're learning API development, backend integration, or working on a
 ## 🧠 Tech Stack
 
 - **Backend:** Flask (Python)
-- **Database:** MongoDB using `pymongo`
+- **Database:** MongoDB (via `pymongo`)
 - **Frontend:** HTML, CSS, JavaScript
 
 ---
@@ -21,12 +21,12 @@ Perfect if you're learning API development, backend integration, or working on a
 ## 🚀 Features
 
 - Add new client contacts  
-- View all existing clients  
-- Update client details  
-- Delete client records  
-- MongoDB integration with `pymongo`  
-- Simple HTML + JS frontend  
-- API also works with Postman or curl for testing
+- View all client records  
+- Update existing client details  
+- Delete client entries  
+- MongoDB integration using `pymongo`  
+- Simple HTML + JS frontend for user interaction  
+- API testing supported via Postman or curl  
 
 ---
 
@@ -35,19 +35,21 @@ Perfect if you're learning API development, backend integration, or working on a
 ```
 client-contact-api/
 │
-├── app.py              # Main Flask app
+├── app.py              # Main Flask server
 ├── client_routes.py    # API route handlers
-├── templates/          # HTML files
+├── templates/          # HTML files (Frontend)
 │   └── index.html
-├── static/             # CSS & JS
+├── static/             # JS, CSS files
 │   ├── styles.css
 │   └── script.js
-├── requirements.txt    # Dependencies
-├── .gitignore
-└── README.md
+├── requirements.txt    # Python dependencies
+├── .gitignore          # Ignore unnecessary files
+└── README.md           # Project documentation
 ```
 
 ---
+
+## 🖼️ Screenshot
 
 ## 📸 Screenshots
 
@@ -68,7 +70,7 @@ git clone https://github.com/codexrahulKIIT/client-contact-flask-mongo-api.git
 cd client-contact-flask-mongo-api
 ```
 
-### 2️⃣ Set Up a Virtual Environment (Optional)
+### 2️⃣ Set Up a Virtual Environment (Optional but Recommended)
 
 ```bash
 # Windows
@@ -84,9 +86,8 @@ pip install -r requirements.txt
 
 ### 4️⃣ Make Sure MongoDB is Running
 
-Make sure MongoDB is running on `localhost:27017`.
-
-You can also use [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) if you prefer a cloud version.
+⚠️ Ensure MongoDB is running on `localhost:27017`.  
+You can also use [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) for cloud hosting.
 
 ---
 
@@ -96,7 +97,7 @@ You can also use [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) if you pre
 python app.py
 ```
 
-The server will start here:
+The server will start on:
 
 ```
 http://127.0.0.1:5000
@@ -108,80 +109,56 @@ http://127.0.0.1:5000
 
 | Method | Endpoint         | Description         |
 |--------|------------------|---------------------|
-| GET    | `/clients`       | Get all clients     |
+| GET    | `/clients`       | Fetch all clients   |
 | POST   | `/clients`       | Add a new client    |
 | PUT    | `/clients/<id>`  | Update client by ID |
 | DELETE | `/clients/<id>`  | Delete client by ID |
 
 ---
 
-## 🔽 Sample JSON (POST or PUT)
+## 🔽 Sample JSON for POST / PUT
 
 ```json
 {
-  "name": "Rahul kumar",
-  "email": "rahulkumar761001@gmail.com",
-  "company": "KIIT",
-  "phone": "+91 6202587293",
+  "name": "John Doe",
+  "email": "john@example.com",
+  "company": "ABC Corp",
+  "phone": "1234567890",
   "status": "Active"
 }
 ```
 
 ---
 
-## ✅ Test Coverage
+## 🧪 How to Test the API
 
-To make sure the API works properly, I wrote proper unit and integration tests.
+You can test your API using any of the following:
 
-- ✔️ Used `pytest`, `coverage.py`, `requests`, and `mongomock` for testing
-- ✔️ Wrote tests for all CRUD routes
-- ✔️ Tested both valid and invalid input cases
-- ✔️ Mocked the database to isolate logic
-- ✔️ Achieved **100% test coverage**
+✅ **Postman**  
+Import endpoints and send GET/POST/PUT/DELETE requests.
 
-📷 **Coverage Report Screenshot**  
-![Coverage Report](https://github.com/codexrahulKIIT/client-contact-flask-mongo-api/blob/93d99bfad64c03fcd3e53d27727ffb18d173e77a/screenshot/Coverage%20report.png?raw=true)
-
----
-
-## 🧪 How to Run the Tests
+✅ **curl**  
+Example:
 
 ```bash
-# Run the tests
-pytest
-
-# Generate test coverage report
-coverage run -m pytest
-coverage report
-
-# (Optional) Generate HTML report
-coverage html
+curl http://127.0.0.1:5000/clients
 ```
 
-Then open `htmlcov/index.html` in your browser to see the report.
+✅ **Built-in Frontend**  
+Just open [http://127.0.0.1:5000/](http://127.0.0.1:5000/) in your browser.  
+It includes a simple UI to add, update, and delete clients.
+
+> Built with plain HTML, CSS, and JavaScript
 
 ---
 
-## 🧪 How to Test the API (Manually)
-
-You can test the API in any of these ways:
-
-✅ **Postman** – Import the endpoints and test them directly  
-✅ **curl** – Command line tool to hit your endpoints  
-✅ **Web UI** – Just visit: `http://127.0.0.1:5000/`  
-It has a clean and simple form to add, update, and delete clients.
-
-> The UI is made using plain HTML, CSS, and JavaScript.
-
----
-
-## ☁️ Deployment
-
-Currently working on deployment using AWS EC2.
-
+## ☁️ working on deployment on AWS EC2
 ---
 
 ## ✍️ Author
 
 **Rahul Kumar**  
 GitHub: [@codexrahulKIIT](https://github.com/codexrahulKIIT)
+
+---
+
