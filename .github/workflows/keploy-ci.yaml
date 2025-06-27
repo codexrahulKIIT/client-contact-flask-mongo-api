@@ -11,7 +11,6 @@ on:
 jobs:
   keploy-test:
     runs-on: ubuntu-latest
-
     services:
       mongodb:
         image: mongo:latest
@@ -30,7 +29,8 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'  # 🔁 Change if your version is different
+          # IMPORTANT: Change this to your actual Python version (e.g., '3.8', '3.10', '3.11', '3.12')
+          python-version: '3.9'
 
       - name: Install application dependencies
         run: |
@@ -48,12 +48,13 @@ jobs:
           sudo mount -t debugfs nodev /sys/kernel/debug || true
           sudo mount -t tracefs nodev /sys/kernel/tracing || true
 
-      - name: Run Keploy Test Suite with API Key and Custom App Info
+      # === CRITICAL FIXES APPLIED IN THIS STEP ===
+      - name: Run Keploy Test Suite
         run: |
-          export KEPLOY_API_KEY=/v3KbR7wwlEy8LXMKA==
-          sudo -E keploy test-suite \
-            --app=a271740b-cc4c-4568-a3ab-ca274c9c9608 \
-            --base-path https://e914-47-31-113-124.ngrok-free.app/clients \
-            --cloud
+          # 🚨 FIX 1: Use GitHub Secrets syntax for the API key (DO NOT hardcode)
+          export KEPLOY_API_KEY=${{ secrets.KEPLOY_API_KEY }}
+          # 🚨 FIX 2: Use 'keploy test -c' command, which works with this Keploy version
+          # It automatically starts your Flask app and finds tests in .keploy directory
+          sudo -E keploy test -c "python app.py" --delay 15 --cloud --language python
         env:
-          FLASK_APP: app.py
+          FLASK_APP: app.py # Keep this, though Keploy's -c flag should handle app startup
